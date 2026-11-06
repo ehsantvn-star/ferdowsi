@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کارت‌پستال شاهنامه - امیرعلی فیلونژاد</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #060913;
+            font-family: "Amiri", "Vazirmatn", Tahoma, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            color: #f8fafc;
+        }
+
+        /* کارت پستال قطع A5 با پس‌زمینه اصیل */
+        .postcard {
+            width: 148mm;
+            height: 210mm;
+            background: radial-gradient(circle at 50% 15%, #172554 0%, #080d1a 100%);
+            border-radius: 12px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(212, 175, 55, 0.4);
+            position: relative;
+            padding: 10mm 9mm 7mm 9mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .postcard.drag-over {
+            border: 2px dashed #f59e0b;
+            transform: scale(1.01);
+        }
+
+        /* حاشیه دوبل طلایی تذهیبی */
+        .postcard::before {
+            content: "";
+            position: absolute;
+            inset: 5mm;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        .postcard::after {
+            content: "";
+            position: absolute;
+            inset: 6.5mm;
+            border: 1px dashed rgba(212, 175, 55, 0.45);
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+        /* نقوش چهارگوشه */
+        .corner-accent {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border: 3px solid #d4af37;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .corner-tl { top: 8mm; right: 8mm; border-bottom: none; border-left: none; }
+        .corner-tr { top: 8mm; left: 8mm; border-bottom: none; border-right: none; }
+        .corner-bl { bottom: 8mm; right: 8mm; border-top: none; border-left: none; }
+        .corner-br { bottom: 8mm; left: 8mm; border-top: none; border-right: none; }
+
+        /* نوار کنترل صوت بالای کارت */
+        .audio-bar {
+            position: absolute;
+            top: 7.5mm;
+            left: 7.5mm;
+            display: flex;
+            gap: 5px;
+            z-index: 20;
+        }
+
+        .ctrl-btn {
+            background: rgba(10, 15, 30, 0.75);
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            color: #fef08a;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 7.5pt;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-family: "Vazirmatn", sans-serif;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+            transition: all 0.2s ease;
+        }
+        .ctrl-btn:hover {
+            background: rgba(212, 175, 55, 0.3);
+            transform: scale(1.03);
+        }
+
+        /* سربرگ */
+        .header {
+            text-align: center;
+            position: relative;
+            z-index: 3;
+            margin-top: 1px;
+        }
+
+        .bismillah {
+            font-size: 14pt;
+            font-weight: 700;
+            color: #f59e0b;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.35);
+        }
+
+        .sub-title {
+            font-size: 8pt;
+            font-family: "Vazirmatn", sans-serif;
+            color: #94a3b8;
+            margin-top: 1px;
+        }
+
+        .divider {
+            color: #d4af37;
+            font-size: 9pt;
+            margin: 2px 0;
+        }
+
+        /* چیدمان ابیات */
+        .poem-container {
+            position: relative;
+            z-index: 3;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3.5px 10px;
+            margin: 2px 0;
+        }
+
+        .bayt {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 5px;
+            padding: 2.5px 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .bayt.highlight {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.18), rgba(245, 158, 11, 0.05));
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .mesra {
+            font-size: 7.5pt;
+            line-height: 1.4;
+            color: #f1f5f9;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .bayt.highlight .mesra {
+            color: #fef08a;
+            font-weight: 700;
+        }
+
+        /* کادر مشخصات دانش‌آموز */
+        .student-footer {
+            position: relative;
+            z-index: 3;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 7px;
+            padding: 4px 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: "Vazirmatn", sans-serif;
+            font-size: 7.5pt;
+            gap: 4px;
+        }
+
+        .student-footer .info-box {
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 4px;
+            padding: 2px 6px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .student-footer .label {
+            color: #94a3b8;
+        }
+
+        .student-footer .value {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+
+        .ltr-text {
+            direction: ltr;
+            display: inline-block;
+            font-family: "Vazirmatn", sans-serif;
+            font-weight: 700;
+        }
+
+        /* تنظیمات پرینت */
+        @media print {
+            body {
+                background: none !important;
+                padding: 0 !important;
+            }
+
+            .postcard {
+                width: 148mm !important;
+                height: 210mm !important;
+                box-shadow: none !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .audio-bar {
+                display: none !important;
+            }
+
+            @page {
+                size: A5 portrait;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- المان صوتی -->
+    <audio id="poemAudio" preload="auto"></audio>
+
+    <!-- انتخاب دستی فایل -->
+    <input type="file" id="fileInput" accept="audio/*" style="display: none;">
+
+    <div class="postcard" id="postcardCard">
+        <!-- دکمه‌های کنترل صوتی -->
+        <div class="audio-bar">
+            <button class="ctrl-btn" id="audioToggle">
+                <span id="audioIcon">▶</span>
+                <span id="audioText">پخش ویس</span>
+            </button>
+            <button class="ctrl-btn" onclick="document.getElementById('fileInput').click()" title="انتخاب فایل ویس از سیستم">
+                📁 انتخاب ویس
+            </button>
+        </div>
+
+        <!-- نقوش گوشه‌ها -->
+        <div class="corner-accent corner-tl"></div>
+        <div class="corner-accent corner-tr"></div>
+        <div class="corner-accent corner-bl"></div>
+        <div class="corner-accent corner-br"></div>
+
+        <!-- سربرگ -->
+        <div class="header">
+            <div class="bismillah">شاهنامه فردوسی</div>
+            <div class="sub-title">آغاز سخن • در ستایش جان، خرد و دادار هستی</div>
+            <div class="divider">✦ ❖ ✦</div>
+        </div>
+
+        <!-- ابیات کامل -->
+        <div class="poem-container">
+            <div class="bayt highlight">
+                <span class="mesra">به نام خداوندِ جان و خرد</span>
+                <span class="mesra">کز این برتر، اندیشه، بر نگذرد</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">خداوندِ نام و خداوندِ جای</span>
+                <span class="mesra">خداوندِ روزی‌دِهِ رهنمای</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">خداوندِ کیوان و گَردان‌سپهر</span>
+                <span class="mesra">فروزندهٔ ماه و ناهید و مِهر</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">ز نام و نشان و گمان، برتر است</span>
+                <span class="mesra">نگارندهٔ بَرشده‌پیکر است</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">به بینندگان، آفریننده را</span>
+                <span class="mesra">نبینی، مرنجان دو بیننده را</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">نیابد بِدو، نیز، اندیشه، راه</span>
+                <span class="mesra">که او برتر از نام و از جایگاه</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">سخن، هر چه زین گوهران، بُگذرد</span>
+                <span class="mesra">نیابد، بِدو راه، جان و خرد</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">خرد، گر سخن، برگزیند همی</span>
+                <span class="mesra">همان را گزیند که بیند همی</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">ستودن، نداند کس او را، چو هست</span>
+                <span class="mesra">میانْ بندگی را، ببایدْت بست</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">خرد را و جان را همی‌سَنجد، اوی</span>
+                <span class="mesra">در اندیشهٔ سَخته کِی گُنجد اوی؟</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">بدین آلتِ رای و جان و زبان</span>
+                <span class="mesra">ستود آفریننده را، کِی توان؟</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">به هستیش، باید که، خستو شوی</span>
+                <span class="mesra">ز گفتار بی‌کار، یکسو، شوی</span>
+            </div>
+
+            <div class="bayt">
+                <span class="mesra">پرستنده باشی و جوینده راه</span>
+                <span class="mesra">به ژرفی، به فرمانْش، کردن نگاه</span>
+            </div>
+
+            <div class="bayt highlight">
+                <span class="mesra">توانا بُوَد هر که دانا بُوَد</span>
+                <span class="mesra">ز دانش، دل پیر، بُرنا بود</span>
+            </div>
+
+            <div class="bayt" style="grid-column: 1 / -1; width: 85%; margin: 0 auto;">
+                <span class="mesra">از این پرده برتر سخن‌گاه نیست</span>
+                <span class="mesra">ز هستی مر اندیشه را راه نیست</span>
+            </div>
+        </div>
+
+        <!-- مشخصات نهایی -->
+        <div class="student-footer">
+            <div class="info-box">
+                <span class="label">تهیه‌کننده:</span>
+                <span class="value">امیرعلی فیلونژاد</span>
+            </div>
+
+            <div class="info-box">
+                <span class="label">کلاس:</span>
+                <span class="value ltr-text">8/2</span>
+            </div>
+
+            <div class="info-box">
+                <span class="label">دبیر ارجمند:</span>
+                <span class="value">استاد زاهدی</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- اسکریپت هوشمند پخش صوت -->
+    <script>
+        const audio = document.getElementById('poemAudio');
+        const audioBtn = document.getElementById('audioToggle');
+        const audioIcon = document.getElementById('audioIcon');
+        const audioText = document.getElementById('audioText');
+        const fileInput = document.getElementById('fileInput');
+        const card = document.getElementById('postcardCard');
+
+        // نام‌های محتمل فایل صوتی
+        const candidateFiles = ['voice.mp3', 'voice.m4a', 'voice.ogg', 'voice.wav', 'audio.mp3'];
+        let candidateIndex = 0;
+
+        function updateUI(isPlaying) {
+            if (isPlaying) {
+                audioIcon.textContent = '❚❚';
+                audioText.textContent = 'توقف ویس';
+            } else {
+                audioIcon.textContent = '▶';
+                audioText.textContent = 'پخش ویس';
+            }
+        }
+
+        // بررسی خودکار فایل‌های کنار پوشه
+        function tryNextAudio() {
+            if (candidateIndex < candidateFiles.length) {
+                audio.src = candidateFiles[candidateIndex];
+                candidateIndex++;
+                audio.load();
+                
+                audio.play().then(() => {
+                    updateUI(true);
+                }).catch(() => {
+                    // اگر اتوپلی قفل شد، با اولین کلیک در صفحه پخش می‌شود
+                    const unlock = () => {
+                        audio.play().then(() => updateUI(true)).catch(() => {});
+                        window.removeEventListener('click', unlock);
+                    };
+                    window.addEventListener('click', unlock, { once: true });
+                });
+            }
+        }
+
+        audio.addEventListener('error', () => {
+            tryNextAudio();
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            tryNextAudio();
+        });
+
+        // کلیک روی دکمه توقف / پخش
+        audioBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.paused) {
+                audio.play().then(() => updateUI(true)).catch(() => {
+                    alert('فایل صوتی یافت نشد. لطفاً از دکمه «📁 انتخاب ویس» فایل خود را انتخاب کنید.');
+                });
+            } else {
+                audio.pause();
+                updateUI(false);
+            }
+        });
+
+        // قابلیت Drag & Drop (کشیدن و رها کردن فایل ویس روی کارت)
+        window.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            card.classList.add('drag-over');
+        });
+
+        window.addEventListener('dragleave', () => {
+            card.classList.remove('drag-over');
+        });
+
+        window.addEventListener('drop', (e) => {
+            e.preventDefault();
+            card.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('audio/')) {
+                audio.src = URL.createObjectURL(file);
+                audio.play().then(() => updateUI(true));
+            }
+        });
+
+        // انتخاب از طریق اینپوت دکمه
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                audio.src = URL.createObjectURL(file);
+                audio.play().then(() => updateUI(true));
+            }
+        });
+
+        audio.addEventListener('ended', () => updateUI(false));
+    </script>
+</body>
+</html>
