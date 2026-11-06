@@ -22,31 +22,32 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 15px;
+            padding: 12px;
             color: #f8fafc;
         }
 
+        /* کارت پستال متناسب با موبایل و صفحه نمایش */
         .postcard {
-            width: 148mm;
-            max-width: 95vw;
-            min-height: 210mm;
+            width: 100%;
+            max-width: 440px;
             background: radial-gradient(circle at 50% 15%, #172554 0%, #080d1a 100%);
             border-radius: 12px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(212, 175, 55, 0.4);
             position: relative;
-            padding: 12mm 9mm 8mm 9mm;
+            padding: 18px 14px 14px 14px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            gap: 10px;
             overflow: hidden;
         }
 
+        /* حاشیه دوبل طلایی تذهیبی */
         .postcard::before {
             content: "";
             position: absolute;
-            inset: 5mm;
+            inset: 6px;
             border: 2px solid #d4af37;
-            border-radius: 8px;
+            border-radius: 9px;
             pointer-events: none;
             opacity: 0.85;
         }
@@ -54,31 +55,31 @@
         .postcard::after {
             content: "";
             position: absolute;
-            inset: 6.5mm;
+            inset: 10px;
             border: 1px dashed rgba(212, 175, 55, 0.45);
             border-radius: 6px;
             pointer-events: none;
         }
 
+        /* نقوش چهارگوشه */
         .corner-accent {
             position: absolute;
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             border: 3px solid #d4af37;
             pointer-events: none;
             z-index: 2;
         }
-        .corner-tl { top: 8mm; right: 8mm; border-bottom: none; border-left: none; }
-        .corner-tr { top: 8mm; left: 8mm; border-bottom: none; border-right: none; }
-        .corner-bl { bottom: 8mm; right: 8mm; border-top: none; border-left: none; }
-        .corner-br { bottom: 8mm; left: 8mm; border-top: none; border-right: none; }
+        .corner-tl { top: 12px; right: 12px; border-bottom: none; border-left: none; }
+        .corner-tr { top: 12px; left: 12px; border-bottom: none; border-right: none; }
+        .corner-bl { bottom: 12px; right: 12px; border-top: none; border-left: none; }
+        .corner-br { bottom: 12px; left: 12px; border-top: none; border-right: none; }
 
+        /* نوار کنترل صوت */
         .audio-bar {
             position: absolute;
-            top: 7.5mm;
-            left: 7.5mm;
-            display: flex;
-            gap: 5px;
+            top: 14px;
+            left: 14px;
             z-index: 20;
         }
 
@@ -86,27 +87,24 @@
             background: rgba(10, 15, 30, 0.85);
             border: 1px solid rgba(212, 175, 55, 0.7);
             color: #fef08a;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 20px;
-            font-size: 8pt;
+            font-size: 7.5pt;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
             font-family: "Vazirmatn", sans-serif;
             cursor: pointer;
             backdrop-filter: blur(6px);
             transition: all 0.2s ease;
         }
-        .ctrl-btn:hover {
-            background: rgba(212, 175, 55, 0.35);
-            transform: scale(1.03);
-        }
 
+        /* سربرگ */
         .header {
             text-align: center;
             position: relative;
             z-index: 3;
-            margin-top: 1px;
+            margin-top: 5px;
         }
 
         .bismillah {
@@ -125,34 +123,30 @@
 
         .divider {
             color: #d4af37;
-            font-size: 9pt;
+            font-size: 8.5pt;
             margin: 2px 0;
         }
 
+        /* چیدمان ابیات کاملاً هماهنگ و یکدست */
         .poem-container {
             position: relative;
             z-index: 3;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3.5px 10px;
-            margin: 4px 0;
+            gap: 4px 8px;
         }
 
         .bayt {
-            background: rgba(255, 255, 255, 0.025);
-            border: 1px solid rgba(212, 175, 55, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.18);
             border-radius: 5px;
-            padding: 2.5px 5px;
+            padding: 3px 4px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        .bayt.highlight {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.18), rgba(245, 158, 11, 0.05));
-            border-color: rgba(212, 175, 55, 0.5);
-        }
-
+        /* همه مصراع‌ها یک‌شکل و یک‌رنگ */
         .mesra {
             font-size: 7.5pt;
             line-height: 1.4;
@@ -161,35 +155,33 @@
             white-space: nowrap;
         }
 
-        .bayt.highlight .mesra {
-            color: #fef08a;
-            font-weight: 700;
-        }
-
+        /* کادر مشخصات دانش‌آموز (کاملاً منظم و ضد بیرون‌زدگی) */
         .student-footer {
             position: relative;
             z-index: 3;
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(15, 23, 42, 0.85);
             border: 1px solid rgba(212, 175, 55, 0.35);
             border-radius: 7px;
-            padding: 4px 8px;
+            padding: 5px 6px;
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            justify-content: center;
             align-items: center;
             font-family: "Vazirmatn", sans-serif;
-            font-size: 7.5pt;
+            font-size: 7pt;
             gap: 4px;
+            width: 100%;
         }
 
         .student-footer .info-box {
             background: rgba(212, 175, 55, 0.08);
             border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: 4px;
-            padding: 2px 6px;
+            padding: 2px 5px;
             white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 3px;
+            gap: 2px;
         }
 
         .student-footer .label {
@@ -211,13 +203,8 @@
 </head>
 <body>
 
-    <!-- المان صوت با اشاره مستقیم به Voice.mp3 گیت‌هاب -->
-    <audio id="poemAudio" preload="auto">
-        <source src="Voice.mp3" type="audio/mpeg">
-        <source src="voice.mp3" type="audio/mpeg">
-        <source src="Voice.m4a" type="audio/mp4">
-        <source src="voice.m4a" type="audio/mp4">
-    </audio>
+    <!-- المان صوت مستقیم -->
+    <audio id="poemAudio" src="Voice.mp3" preload="auto"></audio>
 
     <div class="postcard">
         <div class="audio-bar">
@@ -238,8 +225,9 @@
             <div class="divider">✦ ❖ ✦</div>
         </div>
 
+        <!-- تمام ابیات با سبک و رنگ کاملاً یکسان -->
         <div class="poem-container">
-            <div class="bayt highlight">
+            <div class="bayt">
                 <span class="mesra">به نام خداوندِ جان و خرد</span>
                 <span class="mesra">کز این برتر، اندیشه، بر نگذرد</span>
             </div>
@@ -304,17 +292,18 @@
                 <span class="mesra">به ژرفی، به فرمانْش، کردن نگاه</span>
             </div>
 
-            <div class="bayt highlight">
+            <div class="bayt">
                 <span class="mesra">توانا بُوَد هر که دانا بُوَد</span>
                 <span class="mesra">ز دانش، دل پیر، بُرنا بود</span>
             </div>
 
-            <div class="bayt" style="grid-column: 1 / -1; width: 85%; margin: 0 auto;">
+            <div class="bayt" style="grid-column: 1 / -1; width: 88%; margin: 0 auto;">
                 <span class="mesra">از این پرده برتر سخن‌گاه نیست</span>
                 <span class="mesra">ز هستی مر اندیشه را راه نیست</span>
             </div>
         </div>
 
+        <!-- کادر مشخصات بدون بیرون‌زدگی -->
         <div class="student-footer">
             <div class="info-box">
                 <span class="label">تهیه‌کننده:</span>
@@ -333,6 +322,7 @@
         </div>
     </div>
 
+    <!-- اسکریپت پخش با اولین لمس هر کجای صفحه -->
     <script>
         const audio = document.getElementById('poemAudio');
         const audioBtn = document.getElementById('audioToggle');
@@ -349,29 +339,28 @@
             }
         }
 
-        // تلاش برای پخش خودکار و در صورت قفل بودن، با اولین لمس صفحه
-        function startAudio() {
-            audio.play().then(() => {
-                updateUI(true);
-            }).catch(() => {
-                const clickToPlay = () => {
+        // با اولین لمس یا کلیک روی هر نقطه از صفحه، صدا فوری پخش می‌شود
+        function enableSoundOnFirstTouch() {
+            const startPlay = () => {
+                if (audio.paused) {
                     audio.play().then(() => updateUI(true)).catch(() => {});
-                    window.removeEventListener('click', clickToPlay);
-                    window.removeEventListener('touchstart', clickToPlay);
-                };
-                window.addEventListener('click', clickToPlay, { once: true });
-                window.addEventListener('touchstart', clickToPlay, { once: true });
-            });
+                }
+                // بعد از اولین لمس، لیسنرها برداشته می‌شوند
+                window.removeEventListener('click', startPlay);
+                window.removeEventListener('touchstart', startPlay);
+            };
+
+            window.addEventListener('click', startPlay);
+            window.addEventListener('touchstart', startPlay, { passive: true });
         }
 
-        window.addEventListener('DOMContentLoaded', startAudio);
+        window.addEventListener('DOMContentLoaded', enableSoundOnFirstTouch);
 
+        // دکمه اختصاصی بالای کارت
         audioBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (audio.paused) {
-                audio.play().then(() => updateUI(true)).catch(err => {
-                    alert('خطا در پخش فایل: لطفاً مطمئن شوید فایل صوتی آپلود شده باشد.');
-                });
+                audio.play().then(() => updateUI(true));
             } else {
                 audio.pause();
                 updateUI(false);
