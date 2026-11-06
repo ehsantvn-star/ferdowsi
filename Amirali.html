@@ -26,28 +26,21 @@
             color: #f8fafc;
         }
 
-        /* کارت پستال قطع A5 با پس‌زمینه اصیل */
         .postcard {
             width: 148mm;
-            height: 210mm;
+            max-width: 95vw;
+            min-height: 210mm;
             background: radial-gradient(circle at 50% 15%, #172554 0%, #080d1a 100%);
             border-radius: 12px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(212, 175, 55, 0.4);
             position: relative;
-            padding: 10mm 9mm 7mm 9mm;
+            padding: 12mm 9mm 8mm 9mm;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             overflow: hidden;
-            transition: all 0.3s ease;
         }
 
-        .postcard.drag-over {
-            border: 2px dashed #f59e0b;
-            transform: scale(1.01);
-        }
-
-        /* حاشیه دوبل طلایی تذهیبی */
         .postcard::before {
             content: "";
             position: absolute;
@@ -67,7 +60,6 @@
             pointer-events: none;
         }
 
-        /* نقوش چهارگوشه */
         .corner-accent {
             position: absolute;
             width: 18px;
@@ -81,7 +73,6 @@
         .corner-bl { bottom: 8mm; right: 8mm; border-top: none; border-left: none; }
         .corner-br { bottom: 8mm; left: 8mm; border-top: none; border-right: none; }
 
-        /* نوار کنترل صوت بالای کارت */
         .audio-bar {
             position: absolute;
             top: 7.5mm;
@@ -92,12 +83,12 @@
         }
 
         .ctrl-btn {
-            background: rgba(10, 15, 30, 0.75);
-            border: 1px solid rgba(212, 175, 55, 0.6);
+            background: rgba(10, 15, 30, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.7);
             color: #fef08a;
-            padding: 3px 9px;
+            padding: 4px 10px;
             border-radius: 20px;
-            font-size: 7.5pt;
+            font-size: 8pt;
             display: inline-flex;
             align-items: center;
             gap: 4px;
@@ -107,11 +98,10 @@
             transition: all 0.2s ease;
         }
         .ctrl-btn:hover {
-            background: rgba(212, 175, 55, 0.3);
+            background: rgba(212, 175, 55, 0.35);
             transform: scale(1.03);
         }
 
-        /* سربرگ */
         .header {
             text-align: center;
             position: relative;
@@ -139,14 +129,13 @@
             margin: 2px 0;
         }
 
-        /* چیدمان ابیات */
         .poem-container {
             position: relative;
             z-index: 3;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3.5px 10px;
-            margin: 2px 0;
+            margin: 4px 0;
         }
 
         .bayt {
@@ -177,14 +166,13 @@
             font-weight: 700;
         }
 
-        /* کادر مشخصات دانش‌آموز */
         .student-footer {
             position: relative;
             z-index: 3;
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(15, 23, 42, 0.75);
             border: 1px solid rgba(212, 175, 55, 0.35);
             border-radius: 7px;
-            padding: 4px 6px;
+            padding: 4px 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -219,67 +207,37 @@
             font-family: "Vazirmatn", sans-serif;
             font-weight: 700;
         }
-
-        /* تنظیمات پرینت */
-        @media print {
-            body {
-                background: none !important;
-                padding: 0 !important;
-            }
-
-            .postcard {
-                width: 148mm !important;
-                height: 210mm !important;
-                box-shadow: none !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .audio-bar {
-                display: none !important;
-            }
-
-            @page {
-                size: A5 portrait;
-                margin: 0;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <!-- المان صوتی -->
-    <audio id="poemAudio" preload="auto"></audio>
+    <!-- المان صوت با اشاره مستقیم به Voice.mp3 گیت‌هاب -->
+    <audio id="poemAudio" preload="auto">
+        <source src="Voice.mp3" type="audio/mpeg">
+        <source src="voice.mp3" type="audio/mpeg">
+        <source src="Voice.m4a" type="audio/mp4">
+        <source src="voice.m4a" type="audio/mp4">
+    </audio>
 
-    <!-- انتخاب دستی فایل -->
-    <input type="file" id="fileInput" accept="audio/*" style="display: none;">
-
-    <div class="postcard" id="postcardCard">
-        <!-- دکمه‌های کنترل صوتی -->
+    <div class="postcard">
         <div class="audio-bar">
             <button class="ctrl-btn" id="audioToggle">
                 <span id="audioIcon">▶</span>
                 <span id="audioText">پخش ویس</span>
             </button>
-            <button class="ctrl-btn" onclick="document.getElementById('fileInput').click()" title="انتخاب فایل ویس از سیستم">
-                📁 انتخاب ویس
-            </button>
         </div>
 
-        <!-- نقوش گوشه‌ها -->
         <div class="corner-accent corner-tl"></div>
         <div class="corner-accent corner-tr"></div>
         <div class="corner-accent corner-bl"></div>
         <div class="corner-accent corner-br"></div>
 
-        <!-- سربرگ -->
         <div class="header">
             <div class="bismillah">شاهنامه فردوسی</div>
             <div class="sub-title">آغاز سخن • در ستایش جان، خرد و دادار هستی</div>
             <div class="divider">✦ ❖ ✦</div>
         </div>
 
-        <!-- ابیات کامل -->
         <div class="poem-container">
             <div class="bayt highlight">
                 <span class="mesra">به نام خداوندِ جان و خرد</span>
@@ -357,7 +315,6 @@
             </div>
         </div>
 
-        <!-- مشخصات نهایی -->
         <div class="student-footer">
             <div class="info-box">
                 <span class="label">تهیه‌کننده:</span>
@@ -376,18 +333,11 @@
         </div>
     </div>
 
-    <!-- اسکریپت هوشمند پخش صوت -->
     <script>
         const audio = document.getElementById('poemAudio');
         const audioBtn = document.getElementById('audioToggle');
         const audioIcon = document.getElementById('audioIcon');
         const audioText = document.getElementById('audioText');
-        const fileInput = document.getElementById('fileInput');
-        const card = document.getElementById('postcardCard');
-
-        // نام‌های محتمل فایل صوتی
-        const candidateFiles = ['voice.mp3', 'voice.m4a', 'voice.ogg', 'voice.wav', 'audio.mp3'];
-        let candidateIndex = 0;
 
         function updateUI(isPlaying) {
             if (isPlaying) {
@@ -399,73 +349,32 @@
             }
         }
 
-        // بررسی خودکار فایل‌های کنار پوشه
-        function tryNextAudio() {
-            if (candidateIndex < candidateFiles.length) {
-                audio.src = candidateFiles[candidateIndex];
-                candidateIndex++;
-                audio.load();
-                
-                audio.play().then(() => {
-                    updateUI(true);
-                }).catch(() => {
-                    // اگر اتوپلی قفل شد، با اولین کلیک در صفحه پخش می‌شود
-                    const unlock = () => {
-                        audio.play().then(() => updateUI(true)).catch(() => {});
-                        window.removeEventListener('click', unlock);
-                    };
-                    window.addEventListener('click', unlock, { once: true });
-                });
-            }
+        // تلاش برای پخش خودکار و در صورت قفل بودن، با اولین لمس صفحه
+        function startAudio() {
+            audio.play().then(() => {
+                updateUI(true);
+            }).catch(() => {
+                const clickToPlay = () => {
+                    audio.play().then(() => updateUI(true)).catch(() => {});
+                    window.removeEventListener('click', clickToPlay);
+                    window.removeEventListener('touchstart', clickToPlay);
+                };
+                window.addEventListener('click', clickToPlay, { once: true });
+                window.addEventListener('touchstart', clickToPlay, { once: true });
+            });
         }
 
-        audio.addEventListener('error', () => {
-            tryNextAudio();
-        });
+        window.addEventListener('DOMContentLoaded', startAudio);
 
-        window.addEventListener('DOMContentLoaded', () => {
-            tryNextAudio();
-        });
-
-        // کلیک روی دکمه توقف / پخش
         audioBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (audio.paused) {
-                audio.play().then(() => updateUI(true)).catch(() => {
-                    alert('فایل صوتی یافت نشد. لطفاً از دکمه «📁 انتخاب ویس» فایل خود را انتخاب کنید.');
+                audio.play().then(() => updateUI(true)).catch(err => {
+                    alert('خطا در پخش فایل: لطفاً مطمئن شوید فایل صوتی آپلود شده باشد.');
                 });
             } else {
                 audio.pause();
                 updateUI(false);
-            }
-        });
-
-        // قابلیت Drag & Drop (کشیدن و رها کردن فایل ویس روی کارت)
-        window.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            card.classList.add('drag-over');
-        });
-
-        window.addEventListener('dragleave', () => {
-            card.classList.remove('drag-over');
-        });
-
-        window.addEventListener('drop', (e) => {
-            e.preventDefault();
-            card.classList.remove('drag-over');
-            const file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('audio/')) {
-                audio.src = URL.createObjectURL(file);
-                audio.play().then(() => updateUI(true));
-            }
-        });
-
-        // انتخاب از طریق اینپوت دکمه
-        fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                audio.src = URL.createObjectURL(file);
-                audio.play().then(() => updateUI(true));
             }
         });
 
